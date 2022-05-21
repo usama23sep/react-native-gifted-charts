@@ -1,5 +1,5 @@
 import React from 'react';
-import {ColorValue, View} from 'react-native';
+import { ColorValue, View } from 'react-native';
 import Svg, {
   Path,
   Circle,
@@ -71,7 +71,7 @@ type itemType = {
 };
 
 export const PieChart = (props: propTypes) => {
-  const {data, isThreeD} = props;
+  const { data, isThreeD } = props;
   const radius = props.radius || 120;
   const canvasWidth = radius * 2;
   const canvasHeight = isThreeD ? radius * 2.3 : radius * 2;
@@ -111,8 +111,8 @@ export const PieChart = (props: propTypes) => {
   const labelsPosition = props.labelsPosition
     ? props.labelsPosition
     : donut || props.centerLabelComponent
-    ? 'outward'
-    : 'mid';
+      ? 'outward'
+      : 'mid';
 
   const showTextBackground = props.showTextBackground || false;
   const textBackgroundColor = props.textBackgroundColor || 'white';
@@ -190,20 +190,17 @@ export const PieChart = (props: propTypes) => {
           width: canvasWidth,
           overflow: 'hidden',
         },
-        isThreeD && {transform: [{rotateX: tiltAngle}]},
+        isThreeD && { transform: [{ rotateX: tiltAngle }] },
       ]}>
       <Svg
-        viewBox={`${strokeWidth / -2 + minShiftX} ${
-          strokeWidth / -2 + minShiftY
-        } ${
-          (radius + strokeWidth) * 2 +
+        viewBox={`${strokeWidth / -2 + minShiftX} ${strokeWidth / -2 + minShiftY
+          } ${(radius + strokeWidth) * 2 +
           horizAdjustment +
           (horizAdjustment ? strokeWidth : 0)
-        } ${
-          (radius + strokeWidth) * 2 +
+          } ${(radius + strokeWidth) * 2 +
           +vertAdjustment +
           (vertAdjustment ? strokeWidth : 0)
-        }`}
+          }`}
         height={radius * 2 + strokeWidth}
         width={radius * 2 + strokeWidth}>
         <Defs>
@@ -219,16 +216,14 @@ export const PieChart = (props: propTypes) => {
                 fx="50%"
                 fy="50%"
                 gradientUnits="userSpaceOnUse">
-                <Stop
-                  offset="0%"
-                  stopColor={item.gradientCenterColor || gradientCenterColor}
-                  stopOpacity="1"
-                />
-                <Stop
-                  offset="100%"
-                  stopColor={item.color || colors[index % 9]}
-                  stopOpacity="1"
-                />
+                {item.color.map((it, ii) => {
+                  return <Stop
+                    key={ii + ''}
+                    offset={item.stop[ii]}
+                    stopColor={it}
+                    stopOpacity="1"
+                  />
+                })}
               </RadialGradient>
             );
           })}
@@ -246,14 +241,13 @@ export const PieChart = (props: propTypes) => {
                 data[0].onPress
                   ? data[0].onPress
                   : props.onPress
-                  ? props.onPress(data[0], 0)
-                  : null;
+                    ? props.onPress(data[0], 0)
+                    : null;
               }}
             />
           </>
         ) : (
           data.map((item, index) => {
-            // console.log('index', index);
             let nextItem;
             if (index === pData.length - 1) nextItem = pData[0];
             else nextItem = pData[index + 1];
@@ -277,13 +271,10 @@ export const PieChart = (props: propTypes) => {
             return (
               <Path
                 key={index + 'a'}
-                d={`M ${cx + (item.shiftX || 0)} ${
-                  cy + (item.shiftY || 0)
-                } L ${sx} ${sy} A ${radius} ${radius} 0 ${
-                  semiCircle ? 0 : data[index].value > total / 2 ? 1 : 0
-                } 1 ${ax} ${ay} L ${cx + (item.shiftX || 0)} ${
-                  cy + (item.shiftY || 0)
-                }`}
+                d={`M ${cx + (item.shiftX || 0)} ${cy + (item.shiftY || 0)
+                  } L ${sx} ${sy} A ${radius} ${radius} 0 ${semiCircle ? 0 : data[index].value > total / 2 ? 1 : 0
+                  } 1 ${ax} ${ay} L ${cx + (item.shiftX || 0)} ${cy + (item.shiftY || 0)
+                  }`}
                 stroke={strokeColor}
                 strokeWidth={strokeWidth}
                 fill={
@@ -295,8 +286,8 @@ export const PieChart = (props: propTypes) => {
                   item.onPress
                     ? item.onPress
                     : props.onPress
-                    ? props.onPress(item, index)
-                    : null;
+                      ? props.onPress(item, index)
+                      : null;
                 }}
               />
             );
@@ -368,12 +359,12 @@ export const PieChart = (props: propTypes) => {
                       item.onLabelPress
                         ? item.onLabelPress()
                         : props.onLabelPress
-                        ? props.onLabelPress(item, index)
-                        : item.onPress
-                        ? item.onPress()
-                        : props.onPress
-                        ? props.onPress(item, index)
-                        : null;
+                          ? props.onLabelPress(item, index)
+                          : item.onPress
+                            ? item.onPress()
+                            : props.onPress
+                              ? props.onPress(item, index)
+                              : null;
                     }}
                   />
                 )}
@@ -393,12 +384,12 @@ export const PieChart = (props: propTypes) => {
                     item.onLabelPress
                       ? item.onLabelPress()
                       : props.onLabelPress
-                      ? props.onLabelPress(item, index)
-                      : item.onPress
-                      ? item.onPress()
-                      : props.onPress
-                      ? props.onPress(item, index)
-                      : null;
+                        ? props.onLabelPress(item, index)
+                        : item.onPress
+                          ? item.onPress()
+                          : props.onPress
+                            ? props.onPress(item, index)
+                            : null;
                   }}>
                   {item.text || (showValuesAsLabels ? item.value + '' : '')}
                 </SvgText>
@@ -435,18 +426,18 @@ export const PieChart = (props: propTypes) => {
                 : innerCircleBorderWidth,
             },
             semiCircle &&
-              isThreeD && {
-                borderTopWidth: isThreeD
-                  ? innerCircleBorderWidth * 5
-                  : innerCircleBorderWidth,
-                borderLeftWidth: 0.5,
-                borderLeftColor: innerCircleColor,
-                borderBottomWidth: 0,
-                borderRightWidth: 0.5,
-                borderRightColor: innerCircleColor,
-              },
+            isThreeD && {
+              borderTopWidth: isThreeD
+                ? innerCircleBorderWidth * 5
+                : innerCircleBorderWidth,
+              borderLeftWidth: 0.5,
+              borderLeftColor: innerCircleColor,
+              borderBottomWidth: 0,
+              borderRightWidth: 0.5,
+              borderRightColor: innerCircleColor,
+            },
           ]}>
-          <View style={{marginTop: semiCircle ? -0.5 * innerRadius : 0}}>
+          <View style={{ marginTop: semiCircle ? -0.5 * innerRadius : 0 }}>
             {props.centerLabelComponent ? props.centerLabelComponent() : null}
           </View>
         </View>
